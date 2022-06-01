@@ -1,0 +1,14 @@
+<script src="https://unpkg.com/rxjs@7.5.5/dist/bundles/rxjs.umd.min.js"></script>
+<script>
+  console.log("start");
+
+  //observable
+  const obs$ = rxjs.from([1, 2, 3]);
+  obs$.subscribe((i) => console.log("number:", i));
+
+  //array
+  const arr = Array.from([1, 2, 3]);
+  arr.map((i) => console.log("number:", i));
+
+  console.log("end");
+</script>

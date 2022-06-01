@@ -1,0 +1,44 @@
+<script>
+  //USE LIVE-SERVER BECAUSE CHROME DOESN'T ALLOW LOCAL FILES
+
+  /*
+    const worker = new Worker("worker.js"); 
+    worker.addEventListener("message", (evt) => {  
+          // receive result at evt.data
+    });
+    worker.postMessage({ parameter to call worker  })
+    
+  */
+  document.body = document.createElement("body");
+  document.body.style.fontSize = "48px";
+  let i = 0;
+  const interval = setInterval(
+    () =>
+      (document.body.innerHTML =
+        "While the worker work, the browser is alive:" + i++ + " "),
+    100
+  );
+
+  console.log("starting..!");
+  console.log(
+    "your computer can do " +
+      window.navigator.hardwareConcurrency +
+      " things in parallel."
+  );
+
+  document.body.innerHTML = "Starting worker!";
+
+  const worker = new window.Worker("worker.js");
+
+  worker.addEventListener("message", (evt) => {
+    const { time } = evt.data;
+    const txt = time + " s parallel time";
+
+    console.log(txt);
+    document.body.innerHTML = txt;
+    clearInterval(interval);
+  });
+
+  //call to worker
+  worker.postMessage({ n: 5_000_000_000 });
+</script>

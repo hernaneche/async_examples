@@ -1,0 +1,30 @@
+<script src="https://unpkg.com/rxjs@7.5.5/dist/bundles/rxjs.umd.min.js"></script>
+<script>
+  console.log("start");
+
+  rxjs.fetch
+    .fromFetch(
+      "https://raw.githubusercontent.com/echecode/json/master/json.json"
+    )
+    .subscribe(async (res) => console.log(await res.json()));
+
+  /*
+  rxjs.fetch
+    .fromFetch(
+      "https://raw.githubusercontent.com/echecode/json/master/json.json"
+    )
+    .subscribe((res) => {
+      rxjs.from(res.json()).subscribe((json) => console.log(json));
+    });*/
+  /*
+  rxjs.fetch
+    .fromFetch(
+      "https://raw.githubusercontent.com/echecode/json/master/json.json"
+    )
+    .pipe(
+      rxjs.concatMap((response) => response.json()) //,rxjs.map((x) => x[1])
+    )
+    .subscribe(console.log);
+*/
+  console.log("end");
+</script>

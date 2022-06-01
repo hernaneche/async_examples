@@ -1,0 +1,28 @@
+<script src="https://unpkg.com/paralleljs@1.0/lib/parallel.js"></script>
+<script>
+  const heavyFunction = (data) => {
+    const T = 5_000_000_000;
+    const wait = (t) => {
+      while (t--);
+    };
+    console.log("waiting in background!");
+    wait(T);
+    return "done";
+  };
+
+  async function calcParallel(fun) {
+    const startTime = performance.now();
+
+    var parallel = new Parallel();
+    data = await parallel.spawn(fun); // one line!
+
+    const totalTime = performance.now() - startTime;
+    console.log(
+      data + " totalTime :" + Math.round((100 * totalTime) / 1000) / 100 + " s"
+    );
+  }
+
+  console.log("start");
+  calcParallel(heavyFunction);
+  console.log("end");
+</script>

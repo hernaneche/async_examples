@@ -1,0 +1,14 @@
+<script src="https://unpkg.com/rxjs@7.5.5/dist/bundles/rxjs.umd.min.js"></script>
+<script>
+  console.log("start");
+
+  const p$ = rxjs.from(
+    new Promise((resolve) => {
+      setTimeout(() => resolve("news"), 2000);
+    })
+  );
+
+  p$.subscribe((x) => console.log("rx:", x));
+
+  console.log("end");
+</script>

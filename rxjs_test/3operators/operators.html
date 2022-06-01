@@ -1,0 +1,65 @@
+<script src="https://unpkg.com/rxjs@7.5.5/dist/bundles/rxjs.umd.min.js"></script>
+<script>
+  console.log("start");
+
+  const timestamp = () => {
+    return new Date().toLocaleString("es-AR").split(" ")[1];
+  };
+  //-----------------------------
+  const tempSlow$ = new rxjs.Observable((sub) => {
+    let intervalTemp = setInterval(() => {
+      sub.next({
+        time: timestamp(),
+        val: Math.round(Number(25) + Math.random() * 5) + " ºC",
+      });
+    }, 4000); //slow
+    return () => {
+      console.log("clean temp");
+      clearInterval(intervalTemp);
+    };
+  });
+  //-----------------------------
+  const lvlFast$ = new rxjs.Observable((sub) => {
+    let tankLevel = 10;
+    let intervalLvl = setInterval(() => {
+      tankLevel += Math.round(Math.random()) * 2 - 1.2;
+      tankLevel = tankLevel < 0 ? 0 : tankLevel;
+      sub.next({
+        time: timestamp(),
+        val: tankLevel.toFixed(1) + " m",
+      });
+    }, 500); //fast
+    return () => {
+      console.log("clean lvl");
+      clearInterval(intervalLvl);
+    };
+  });
+  //-----------------------------
+
+  const subscription1 = lvlFast$
+    .pipe(rxjs.throttleTime(1000))
+    .subscribe(console.log);
+
+  const subscription2 = tempSlow$.subscribe(console.log);
+
+  /*
+  const alert = (x) => parseInt(x[1].val) > 25;
+  const filter = rxjs.operators.filter;
+
+  const subscription1 = rxjs
+    .combineLatest(lvlFast$, tempSlow$)
+    .pipe(filter(alert), rxjs.throttleTime(1000))
+    .subscribe((data) =>
+      console.log(
+        `Level:${data[0].val} ${data[0].time} Temp:${data[1].val} ${data[1].time}`
+      )
+    );
+*/
+  setTimeout(() => {
+    console.log("unsubscribe");
+    if (typeof subscription1 != "undefined") subscription1.unsubscribe(); //usually not needed
+    if (typeof subscription2 != "undefined") subscription2.unsubscribe(); //usually not needed
+  }, 10000);
+
+  console.log("end");
+</script>
