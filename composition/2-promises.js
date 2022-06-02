@@ -16,11 +16,11 @@ function askForPizza(callbackHere) {
   }, 3000);
 }
 
-/*
+
 console.log("start");
 askForPizza((msg) => console.log("answer: " + msg));
 console.log("end");
-*/
+
 
 //Now WRAP with a Promise
 async function askForPizzaImproved() {
@@ -33,7 +33,8 @@ async function run() {
   console.log("answer: " + (await askForPizzaImproved()));
   console.log("end");
 }
-
-console.log("empieza");
+/*
+console.log("begin");
 run(); // as Pizza is asyc, this is still async!
-console.log("termina");
+console.log("finish");
+*/
